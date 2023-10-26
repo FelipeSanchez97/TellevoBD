@@ -44,6 +44,21 @@
         
       </div>
 
+      <ion-item>
+        <ion-label>Selecciona tu rol</ion-label>
+        <ion-radio-group formControlName="role">
+          <ion-item>
+            <ion-label>Pasajero</ion-label>
+            <ion-radio value="pasajero"></ion-radio>
+          </ion-item>
+          <ion-item>
+            <ion-label>Conductor</ion-label>
+            <ion-radio value="conductor"></ion-radio>
+          </ion-item>
+        </ion-radio-group>
+      </ion-item>
+      
+
       
 
       <ion-button  expand="block" mode="ios" class="submit" type="submit" [disabled]="form.invalid" >

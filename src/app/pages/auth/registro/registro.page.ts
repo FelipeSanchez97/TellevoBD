@@ -11,11 +11,13 @@ import { UtilsService } from 'src/app/services/utils.service';
 })
 export class RegistroPage implements OnInit {
 
+
   form = new FormGroup({
     uid: new FormControl(''),
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required]),
-    name: new FormControl('', [Validators.required, Validators.minLength(3)])
+    name: new FormControl('', [Validators.required, Validators.minLength(3)]),
+    role: new FormControl('', [Validators.required])
 
 
 
@@ -63,36 +65,53 @@ export class RegistroPage implements OnInit {
 
   async setUserInfo(uid: string) {
     if (this.form.valid) {
-
       const loading = await this.utilsSvc.loading();
       await loading.present();
 
-      let path = `users/${uid}`;
-      delete this.form.value.password;
+      const user = this.form.value as User; // Obtén los valores del formulario
 
-      this.firebaseSvc.setDocument(path, this.form.value).then(async res => {
+      // Elimina la contraseña del objeto de usuario antes de guardarlo en Firebase
+      const userWithoutPassword = { ...user };
+      delete userWithoutPassword.password;
 
-        this.utilsSvc.saveInLocalStorage('user', this.form.value);
-        this.utilsSvc.routerLink('/main/home');
-        this.form.reset()
+      const path = `users/${uid}`;
+      // Guarda la información en Firebase
+      this.firebaseSvc.setDocument(path, userWithoutPassword).then(async () => {
+        // Guarda el rol del usuario
+        const rolePath = `userRoles/${uid}`;
+        const userRole = { role: user.role }; // Guarda el rol en una ubicación específica
+        await this.firebaseSvc.setDocument(rolePath, userRole);
 
+        // Guarda la información del usuario en el almacenamiento local
+        this.utilsSvc.saveInLocalStorage('user', user);
+        // También guarda el rol en el almacenamiento local
+        this.utilsSvc.saveInLocalStorage('role', user.role);
+        this.utilsSvc.routerLink('auth');
+        this.form.reset();
+
+        this.utilsSvc.presentToast({
+          message: 'Usuario creado con éxito',
+          duration: 2500,
+          color: 'success',
+          position: 'middle',
+          icon: 'checkmark-circle-outline'
+        });
 
 
       }).catch(error => {
         console.error(error);
-
         this.utilsSvc.presentToast({
-          message: 'Usuario no valido',
+          message: 'Usuario no válido',
           duration: 2500,
           color: 'tertiary',
           position: 'middle',
           icon: 'alert-circle-outline'
-        })
-
+        });
       }).finally(() => {
         loading.dismiss();
-      })
+      });
     }
   }
+
 
 }

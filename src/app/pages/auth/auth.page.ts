@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from 'src/app/models/user.model';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { UtilsService } from 'src/app/services/utils.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-auth',
@@ -17,6 +18,9 @@ export class AuthPage implements OnInit {
 
 
   })
+  constructor(private router: Router) { }
+
+
 
   firebaseSvc = inject(FirebaseService);
   utilsSvc = inject(UtilsService)
@@ -64,16 +68,28 @@ export class AuthPage implements OnInit {
       this.firebaseSvc.getDocument(path).then((user: User) => {
 
         this.utilsSvc.saveInLocalStorage('user', user);
-        this.utilsSvc.routerLink('/main/home');
         this.form.reset();
 
-        this.utilsSvc.presentToast({
-          message: `Te damos la bienvenida ${user.name}`,
-          duration: 1500,
-          color: 'tertiary',
-          position: 'middle',
-          icon: 'person-circle-outline'
-        })
+        const role = user.role; // Obtén el rol del usuario
+        if (role === 'conductor') {
+          this.utilsSvc.presentToast({
+            message: `Bienvenido, ${user.name}`,
+            duration: 1500,
+            color: 'tertiary',
+            position: 'middle',
+            icon: 'person-circle-outline'
+          });
+          this.utilsSvc.routerLink('/main/home');
+        } else if (role === 'pasajero') {
+          this.utilsSvc.presentToast({
+            message: `Bienvenido, ${user.name}`,
+            duration: 1500,
+            color: 'tertiary',
+            position: 'middle',
+            icon: 'person-circle-outline'
+          });
+          this.utilsSvc.routerLink('/main/home-pasajero');
+        } 
 
 
 

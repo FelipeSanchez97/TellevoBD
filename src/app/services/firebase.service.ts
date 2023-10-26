@@ -59,6 +59,16 @@ export class FirebaseService {
     this.utilsSvc.routerLink('/auth')
   }
 
+  // Método para obtener el rol del usuario
+  async getUserRole(uid: string): Promise<string | null> {
+    const rolePath = `userRoles/${uid}`;
+    const roleData = await this.getDocument(rolePath);
+    if (roleData && roleData['role']) {
+      return roleData['role'];
+    }
+    return null;
+  }
+
   // =====================BASE DE DATOS==================
 
   // =====================SETEAR UN DOCUMENTO==================
