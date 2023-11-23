@@ -23,9 +23,33 @@ const routes: Routes = [
         path: 'home-pasajero',
         loadChildren: () => import('./home-pasajero/home-pasajero.module').then( m => m.HomePasajeroPageModule), canActivate: [PasajeroGuard]
       },
+      {
+        path: 'agregar-ruta',
+        loadChildren: () => import('./agregar-ruta/agregar-ruta.module').then( m => m.AgregarRutaPageModule), canActivate: [ConductorGuard]
+      },
+      {
+        path: 'eliminar-ruta',
+        loadChildren: () => import('./eliminar-ruta/eliminar-ruta.module').then( m => m.EliminarRutaPageModule), canActivate: [ConductorGuard]
+      },
+      {
+        path: 'solicitudes',
+        loadChildren: () => import('./solicitudes/solicitudes.module').then( m => m.SolicitudesPageModule), canActivate: [ConductorGuard]
+      },
+      {
+        path: 'ver-rutas',
+        loadChildren: () => import('./ver-rutas/ver-rutas.module').then( m => m.VerRutasPageModule), canActivate: [PasajeroGuard]
+      },
+      {
+        path: 'viaje-programado',
+        loadChildren: () => import('./viaje-programado/viaje-programado.module').then( m => m.ViajeProgramadoPageModule), canActivate: [PasajeroGuard]
+      },
     ]
 
   },
+  
+  
+  
+  
   
 
 ];

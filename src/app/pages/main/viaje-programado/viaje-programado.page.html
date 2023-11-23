@@ -1,0 +1,39 @@
+<app-header backButton="main/home-pasajero" title="Viaje programado"></app-header>
+
+<ion-content>
+    <form [formGroup]="rutaForm" (ngSubmit)="crearRuta()">
+        <ion-item>
+            <ion-label position="floating">Salida</ion-label>
+            <ion-input formControlName="salida" type="text"></ion-input>
+        </ion-item>
+        <ion-note *ngIf="rutaForm.get('salida').invalid && rutaForm.get('salida').touched" color="danger">
+            Por favor, ingresa la salida.
+        </ion-note>
+
+        <ion-item>
+            <ion-label position="floating">Destino</ion-label>
+            <ion-input formControlName="destino" type="text"></ion-input>
+        </ion-item>
+        <ion-note *ngIf="rutaForm.get('destino').invalid && rutaForm.get('destino').touched" color="danger">
+            Por favor, ingresa el destino.
+        </ion-note>
+
+        <ion-item>
+            <ion-label position="floating">Fecha</ion-label>
+            <input formControlName="fecha" type="date" class="custom-input-style">
+        </ion-item>
+        <ion-note *ngIf="rutaForm.get('fecha').invalid && rutaForm.get('fecha').touched" color="danger">
+            Por favor, ingresa la fecha.
+        </ion-note>
+        
+        <ion-item>
+            <ion-label position="floating">Hora</ion-label>
+            <input formControlName="hora" type="time" class="custom-input-style">
+        </ion-item>
+        <ion-note *ngIf="rutaForm.get('hora').invalid && rutaForm.get('hora').touched" color="danger">
+            Por favor, ingresa la hora.
+        </ion-note>
+
+        <ion-button expand="full" type="submit" [disabled]="rutaForm.invalid">Crear Ruta</ion-button>
+    </form>
+</ion-content>

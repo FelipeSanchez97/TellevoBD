@@ -1,0 +1,29 @@
+/* Estilos personalizados para la lista de rutas */
+.ruta-item {
+    --border-radius: 10px;
+    --inner-padding-start: 10px;
+    --inner-padding-end: 10px;
+    --inner-padding-top: 10px;
+    --inner-padding-bottom: 10px;
+    --background: #f0f0f0;
+
+    /* Estilos del contenido dentro de cada ruta */
+    ion-label {
+        h2 {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        p {
+            font-size: 16px;
+            color: #333;
+        }
+    }
+
+    /* Estilos del ícono al final de cada item */
+    ion-icon {
+        font-size: 20px;
+        color: #666;
+    }
+}

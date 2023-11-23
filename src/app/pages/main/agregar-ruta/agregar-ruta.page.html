@@ -1,0 +1,21 @@
+<app-header backButton="/main/home" title="Agregar ruta"></app-header>
+
+<ion-content>
+
+  <ion-card>
+    <ion-card-content>
+      <form (ngSubmit)="guardarRuta()">
+        <ion-item>
+          <ion-label position="floating">Origen:</ion-label>
+          <ion-input type="text" name="origen" [(ngModel)]="ruta.origen" id="origen" placeholder="Origen" required></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Destino:</ion-label>
+          <ion-input type="text" name="destino" [(ngModel)]="ruta.destino" id="destino" placeholder="Destino" required></ion-input>
+        </ion-item>
+        <!-- Otros campos como fecha, hora, etc. -->
+        <ion-button expand="block" type="submit">Guardar Ruta</ion-button>
+      </form>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

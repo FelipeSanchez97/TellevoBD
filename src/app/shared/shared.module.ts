@@ -5,7 +5,7 @@ import { CustomInputComponent } from './components/custom-input/custom-input.com
 import { LogoComponent } from './components/logo/logo.component';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AddUpdateRutaComponent } from './components/add-update-ruta/add-update-ruta.component';
+
 
 
 
@@ -14,14 +14,14 @@ import { AddUpdateRutaComponent } from './components/add-update-ruta/add-update-
     HeaderComponent,
     CustomInputComponent,
     LogoComponent,
-    AddUpdateRutaComponent
+    
   ],
   exports: [
     HeaderComponent,
     CustomInputComponent,
     LogoComponent,
     ReactiveFormsModule,
-    AddUpdateRutaComponent
+    
     
 
   ],

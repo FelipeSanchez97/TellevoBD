@@ -1,13 +1,50 @@
 <app-header title="Inicio Conductor"></app-header>
 
 <ion-content>
-  
-  <!-- NUEVA RUTA -->
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button (click)="obtenerGeolocalizacion()" (click)="addUpdateRuta()">
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
 
-  
+    <ion-grid>
+        <ion-row justify-content-center align-items-center>
+            <!-- Card para Agregar ruta -->
+            <ion-col size="4">
+                <ion-card>
+                    <ion-card-header>
+                        <ion-card-title>Agregar ruta</ion-card-title>
+                    </ion-card-header>
+                    <ion-card-content>
+                        <ion-button routerLink="/main/agregar-ruta" expand="full"><ion-icon
+                                name="add-circle-outline"></ion-icon></ion-button>
+                    </ion-card-content>
+                </ion-card>
+            </ion-col>
+
+            <!-- Card para Eliminar ruta -->
+            <ion-col size="4">
+                <ion-card>
+                    <ion-card-header>
+                        <ion-card-title>Eliminar ruta</ion-card-title>
+                    </ion-card-header>
+                    <ion-card-content>
+                        <ion-button routerLink="/main/eliminar-ruta" expand="full"><ion-icon
+                                name="trash-outline"></ion-icon></ion-button>
+                    </ion-card-content>
+                </ion-card>
+            </ion-col>
+
+            <!-- Card para ver solicitudes -->
+            <ion-col size="4">
+                <ion-card>
+                    <ion-card-header>
+                        <ion-card-title>Solicitudes</ion-card-title>
+                    </ion-card-header>
+                    <ion-card-content>
+                        <ion-button routerLink="/main/solicitudes" expand="full"><ion-icon
+                                name="mail-outline"></ion-icon></ion-button>
+                    </ion-card-content>
+                </ion-card>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+
+
 </ion-content>
