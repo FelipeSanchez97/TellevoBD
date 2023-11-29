@@ -1,6 +1,9 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { UtilsService } from 'src/app/services/utils.service';
+import { Router } from '@angular/router';
+import { ToastController } from '@ionic/angular';
+
 
 @Component({
   selector: 'app-solicitudes',
@@ -13,7 +16,11 @@ export class SolicitudesPage implements OnInit {
   firebaseSvc = inject(FirebaseService);
   utilsSvc = inject(UtilsService);
 
-  constructor() { }
+  constructor(firebaseSvc: FirebaseService, utilsSvc: UtilsService, private router: Router,
+    private toastController: ToastController) {
+    this.firebaseSvc = firebaseSvc;
+    this.utilsSvc = utilsSvc;
+  }
 
   ngOnInit() {
     this.obtenerViajesProgramados();
@@ -25,24 +32,26 @@ export class SolicitudesPage implements OnInit {
     });
   }
 
-  aceptarViaje(viaje: any) {
-    this.firebaseSvc.actualizarEstadoViaje(viaje.id, 'aceptado')
-      .then(() => {
-        this.obtenerViajesProgramados(); // Actualizar la lista después de aceptar el viaje
-      })
-      .catch(error => {
-        console.error('Error al aceptar el viaje:', error);
-      });
-  }
+  async aceptarViaje(viaje: any) {
+    // Aquí podrías realizar acciones adicionales antes de redireccionar, si es necesario
+    // Por ejemplo, podrías actualizar el estado del viaje en Firebase
 
-  rechazarViaje(viaje: any) {
-    this.firebaseSvc.actualizarEstadoViaje(viaje.id, 'rechazado')
-      .then(() => {
-        this.obtenerViajesProgramados(); // Actualizar la lista después de rechazar el viaje
-      })
-      .catch(error => {
-        console.error('Error al rechazar el viaje:', error);
-      });
-  }
+    // Redireccionar a la página principal
+    await this.router.navigate(['main/home']);
 
+    // Mostrar mensaje
+    const toast = await this.toastController.create({
+      message: 'Haz aceptado el viaje. Por favor, sé puntual',
+      duration: 4000, // Duración del mensaje en milisegundos
+      position: 'middle' // Posición del mensaje en la pantalla
+    });
+    await toast.present();
+  }
 }
+  
+
+  
+
+
+
+

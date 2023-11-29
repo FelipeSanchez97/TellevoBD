@@ -46,6 +46,10 @@ const routes: Routes = [
     ]
 
   },
+  {
+    path: 'ver-viajes-programados',
+    loadChildren: () => import('./ver-viajes-programados/ver-viajes-programados.module').then( m => m.VerViajesProgramadosPageModule)
+  },
   
   
   

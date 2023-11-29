@@ -3,7 +3,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth'
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, sendPasswordResetEmail, getAuth } from 'firebase/auth'
 import { User } from '../models/user.model'
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { getFirestore, setDoc, doc, getDoc, collection, query, where, deleteDoc,getDocs } from '@angular/fire/firestore'
+import { getFirestore, setDoc, doc, getDoc, collection, query, where, deleteDoc, getDocs } from '@angular/fire/firestore'
 import { UtilsService } from './utils.service';
 import { Observable } from 'rxjs';
 
@@ -80,10 +80,10 @@ export class FirebaseService {
   async obtenerRutasUsuario(uid: string): Promise<any[]> {
     const rutaCollection = collection(getFirestore(), 'rutas');
     const q = query(rutaCollection, where('conductorId', '==', uid));
-    
+
     const snapshot = await getDocs(q);
     const rutas: any[] = [];
-    
+
     snapshot.forEach((doc) => {
       rutas.push({ id: doc.id, ...doc.data() });
     });
@@ -96,25 +96,38 @@ export class FirebaseService {
     await deleteDoc(rutaDoc);
   }
 
-// =====================VER RUTAS==================
+  // =====================VER RUTAS==================
   obtenerRutas(): Observable<any[]> {
     return this.firestore.collection('rutas').valueChanges();
   }
 
-// =====================RUTAS VIAJES PROGRAMADOS==================
-guardarRutaProgramada(ruta: any) {
-  return this.firestore.collection('rutaprogramada').add(ruta);
-}
+  // =====================RUTAS VIAJES PROGRAMADOS==================
+  guardarRutaProgramada(ruta: any) {
+    const user = getAuth().currentUser;
+    if (user) {
+      ruta.idPasajero = user.uid; // Asociar el UID del pasajero con el viaje
+      return this.firestore.collection('rutaprogramada').add(ruta);
+    } else {
+      return Promise.reject(new Error('No se pudo obtener el usuario actual.'));
+    }
+  }
 
-// =====================VER VIAJES PROGRAMADOS==================
-getViajesProgramados(): Observable<any[]> {
-  return this.firestore.collection('rutaprogramada').valueChanges();
-}
 
-// =====================ACTUALIZAR VIAJES PROGRAMADOS==================
-actualizarEstadoViaje(viajeId: string, nuevoEstado: string) {
-  return this.firestore.collection('rutaprogramada').doc(viajeId).update({ estado: nuevoEstado });
-}
+  // =====================VER VIAJES PROGRAMADOS==================
+  getViajesProgramados(): Observable<any[]> {
+    return this.firestore.collection('rutaprogramada').valueChanges();
+  }
+
+  // =====================VER VIAJES PROGRAMADOS PASAJEROS==================
+  getViajesProgramadosPorPasajero(pasajeroId: string): Observable<any[]> {
+    return this.firestore.collection('rutaprogramada', ref => ref.where('idPasajero', '==', pasajeroId)).valueChanges();
+  }
+
+  // METODO PARA ACTUALIZAR LA RUTA PROGRAMADA
+  async actualizarEstadoRutaProgramada(idRuta: string, nuevoEstado: string): Promise<void> {
+    const rutaDoc = doc(getFirestore(), 'rutaprogramada', idRuta);
+    await setDoc(rutaDoc, { estado: nuevoEstado }, { merge: true });
+  }
 
 
   // =====================BASE DE DATOS==================

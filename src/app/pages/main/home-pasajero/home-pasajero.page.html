@@ -1,39 +1,49 @@
 <app-header title="Inicio Pasajero"></app-header>
 
+
+
 <ion-content>
+    <ion-row>
+        <!-- Card para ver ruta -->
+        <ion-col size="4">
+            <ion-card class="custom-card">
+                <ion-card-header>
+                    <ion-card-title class="ion-text-center">Ver rutas</ion-card-title>
+                </ion-card-header>
+                <ion-card-content>
+                    <ion-button routerLink="/main/ver-rutas" expand="full">
+                        <ion-icon name="map-outline"></ion-icon>
+                    </ion-button>
+                </ion-card-content>
+            </ion-card>
+        </ion-col>
 
+        <!-- Card para viajes programados -->
+        <ion-col size="4">
+            <ion-card class="custom-card">
+                <ion-card-header>
+                    <ion-card-title class="ion-text-center">Viaje programado</ion-card-title>
+                </ion-card-header>
+                <ion-card-content>
+                    <ion-button routerLink="/main/viaje-programado" expand="full">
+                        <ion-icon name="time-outline"></ion-icon>
+                    </ion-button>
+                </ion-card-content>
+            </ion-card>
+        </ion-col>
 
-    <ion-grid>
-        <ion-row justify-content-end align-items-center>
-            <!-- Card para ver ruta -->
-            <ion-col size="6">
-                <ion-card class="custom-card">
-                    <ion-card-header>
-                        <ion-card-title>ver rutas</ion-card-title>
-                    </ion-card-header>
-                    <ion-card-content>
-                        <br>
-                        <ion-button routerLink="/main/ver-rutas" expand="full"><ion-icon
-                                name="map-outline"></ion-icon></ion-button>
-                    </ion-card-content>
-                </ion-card>
-            </ion-col>
-
-            <!-- Card para ver viajes programados -->
-            <ion-col size="6">
-                <ion-card class="custom-card">
-                    <ion-card-header>
-                        <ion-card-title>Viaje programado</ion-card-title>
-                    </ion-card-header>
-                    <ion-card-content>
-                        <ion-button routerLink="/main/viaje-programado" expand="full"><ion-icon
-                                name="time-outline"></ion-icon></ion-button>
-                    </ion-card-content>
-                </ion-card>
-            </ion-col>
-        </ion-row>
-    </ion-grid>
-
-
-
+        <!-- Card para ver viajes programados -->
+        <ion-col size="4">
+            <ion-card class="custom-card">
+                <ion-card-header>
+                    <ion-card-title class="ion-text-center">Mis viajes programados</ion-card-title>
+                </ion-card-header>
+                <ion-card-content>
+                    <ion-button routerLink="/main/ver-viajes-programados" expand="full">
+                        <ion-icon name="man-outline"></ion-icon>
+                    </ion-button>
+                </ion-card-content>
+            </ion-card>
+        </ion-col>
+    </ion-row>
 </ion-content>

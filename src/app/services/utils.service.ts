@@ -24,6 +24,15 @@ export class UtilsService {
     toast.present();
   }
 
+  // METODO PARA MOSTRAR UN MENSAJE
+  async mostrarToast(message: string, options?: ToastOptions) {
+    const toast = await this.toastCtrl.create({
+      message: message,
+      ...options // Puedes pasar opciones adicionales si es necesario
+    });
+    await toast.present();
+  }
+
   //==========ENRUTA A CUALQUIER PAGINA POSIBLE=====================
 
   routerLink(url: string) {
