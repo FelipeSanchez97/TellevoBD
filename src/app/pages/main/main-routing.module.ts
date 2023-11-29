@@ -43,13 +43,14 @@ const routes: Routes = [
         path: 'viaje-programado',
         loadChildren: () => import('./viaje-programado/viaje-programado.module').then( m => m.ViajeProgramadoPageModule), canActivate: [PasajeroGuard]
       },
+      {
+        path: 'ver-viajes-programados',
+        loadChildren: () => import('./ver-viajes-programados/ver-viajes-programados.module').then( m => m.VerViajesProgramadosPageModule), canActivate: [PasajeroGuard]
+      },
     ]
 
   },
-  {
-    path: 'ver-viajes-programados',
-    loadChildren: () => import('./ver-viajes-programados/ver-viajes-programados.module').then( m => m.VerViajesProgramadosPageModule)
-  },
+  
   
   
   
