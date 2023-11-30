@@ -6,15 +6,22 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { getFirestore, setDoc, doc, getDoc, collection, query, where, deleteDoc, getDocs } from '@angular/fire/firestore'
 import { UtilsService } from './utils.service';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FirebaseService {
 
+  private ultimoID: number = 0;
   auth = inject(AngularFireAuth);
   firestore = inject(AngularFirestore);
   utilsSvc = inject(UtilsService);
+
+  constructor() {
+    // Al inicializar el servicio, obtén el último ID
+    this.obtenerUltimoID();
+  }
 
 
 
@@ -103,9 +110,13 @@ export class FirebaseService {
 
   // =====================RUTAS VIAJES PROGRAMADOS==================
   guardarRutaProgramada(ruta: any) {
-    const user = getAuth().currentUser;
+    const user = getAuth().currentUser; // Obtener el usuario actual
     if (user) {
       ruta.idPasajero = user.uid; // Asociar el UID del pasajero con el viaje
+      this.ultimoID++; // Incrementar el último ID
+      ruta.id = this.ultimoID; // Asignar el ID al viaje programado
+      ruta.estado = 'Pendiente'; // Establecer el estado predeterminado como 'Pendiente'
+      // Guardar el viaje programado en Firestore con el nuevo ID, ID del pasajero y estado
       return this.firestore.collection('rutaprogramada').add(ruta);
     } else {
       return Promise.reject(new Error('No se pudo obtener el usuario actual.'));
@@ -123,11 +134,37 @@ export class FirebaseService {
     return this.firestore.collection('rutaprogramada', ref => ref.where('idPasajero', '==', pasajeroId)).valueChanges();
   }
 
-  // METODO PARA ACTUALIZAR LA RUTA PROGRAMADA
-  async actualizarEstadoRutaProgramada(idRuta: string, nuevoEstado: string): Promise<void> {
-    const rutaDoc = doc(getFirestore(), 'rutaprogramada', idRuta);
-    await setDoc(rutaDoc, { estado: nuevoEstado }, { merge: true });
+
+
+  // Método para obtener el último ID de los viajes programados
+  private obtenerUltimoID() {
+    this.firestore.collection('rutaprogramada', ref => ref.orderBy('id', 'desc').limit(1))
+      .valueChanges()
+      .pipe(
+        map((viajes: any[]) => {
+          if (viajes.length > 0) {
+            this.ultimoID = viajes[0].id;
+          } else {
+            this.ultimoID = 0;
+          }
+        })
+      )
+      .subscribe();
   }
+  
+
+  // Método para actualizar el estado del viaje programado al ser aceptado por el conductor
+  actualizarEstadoViajeAceptado(idViaje: string) {
+    const docRef = this.firestore.collection('rutaprogramada').doc(idViaje);
+    return docRef.update({ estado: 'Aceptado' })
+      .then(() => {
+        console.log('Estado del viaje actualizado a Aceptado');
+      })
+      .catch((error) => {
+        console.error('Error al actualizar el estado del viaje:', error);
+      });
+  }
+  
 
 
   // =====================BASE DE DATOS==================

@@ -6,12 +6,13 @@
     <ion-list>
         <ion-item *ngFor="let viaje of viajesProgramados" class="viaje-item" lines="full">
             <ion-icon name="location-outline" slot="start"></ion-icon>
-            <ion-label>
-                <p>Ruta: {{ viaje.salida }} - {{ viaje.destino }}</p>
-                <p>Fecha: {{ viaje.fecha }}</p>
-                <p>Hora: {{ viaje.hora }}</p>
-            </ion-label>
-            <ion-button (click)="aceptarViaje(viaje)" color="primary">Aceptar</ion-button>
+                <ion-label>
+                    <p>Ruta: {{ viaje.salida }} - {{ viaje.destino }}</p>
+                    <p>Fecha: {{ viaje.fecha }}</p>
+                    <p>Hora: {{ viaje.hora }}</p>
+                    <p>Estado: {{ viaje.estado }}</p>
+                </ion-label>
+            <ion-button (click)="aceptarViaje(viaje.estado)" color="primary">Aceptar</ion-button>
         </ion-item>
     </ion-list>
 

@@ -32,25 +32,31 @@ export class SolicitudesPage implements OnInit {
     });
   }
 
-  async aceptarViaje(viaje: any) {
-    // Aquí podrías realizar acciones adicionales antes de redireccionar, si es necesario
-    // Por ejemplo, podrías actualizar el estado del viaje en Firebase
-
-    // Redireccionar a la página principal
-    await this.router.navigate(['main/home']);
-
-    // Mostrar mensaje
-    const toast = await this.toastController.create({
-      message: 'Haz aceptado el viaje. Por favor, sé puntual',
-      duration: 4000, // Duración del mensaje en milisegundos
-      position: 'middle' // Posición del mensaje en la pantalla
-    });
-    await toast.present();
+  aceptarViaje(viaje: any) {
+    this.firebaseSvc.actualizarEstadoViajeAceptado(viaje.id) // Asegúrate de usar 'vid' si cambiaste el nombre
+      .then(() => {
+        console.log('Estado del viaje actualizado a Aceptado');
+        this.router.navigate(['main/home']); // Redirecciona a 'main/home'
+        this.mostrarToast('Viaje aceptado. Por favor sea puntual en la hora solicitada');
+      })
+      .catch((error) => {
+        console.error('Error al actualizar el estado del viaje:', error);
+      });
   }
-}
   
+  async mostrarToast(mensaje: string) {
+    const toast = await this.toastController.create({
+      message: mensaje,
+      duration: 4000, // Duración del mensaje en milisegundos
+      position: 'middle' // Posición del mensaje en la pantalla (puede ser 'top', 'middle', o 'bottom')
+    });
+    toast.present();
+  }
 
-  
+}
+
+
+
 
 
 

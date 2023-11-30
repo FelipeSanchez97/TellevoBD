@@ -8,7 +8,11 @@
                 <p>Origen: {{ viaje.salida }}</p>
                 <p>Destino: {{ viaje.destino }}</p>
                 <p>Fecha: {{ viaje.fecha }} - Hora: {{ viaje.hora }}</p>
+                <p>Estado:{{viaje.estado}}
             </ion-label>
         </ion-item>
     </ion-list>
+    <div *ngIf="viajesProgramados.length === 0" class="empty-message">
+        <p>No tienes viajes programados.</p> 
+    </div>
 </ion-content>

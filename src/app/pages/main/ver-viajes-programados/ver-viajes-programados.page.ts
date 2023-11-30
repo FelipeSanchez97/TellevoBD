@@ -20,14 +20,9 @@ export class VerViajesProgramadosPage implements OnInit {
     if (user) {
       this.firebaseSvc.getViajesProgramadosPorPasajero(user.uid)
         .subscribe((viajes: any[]) => {
-          this.viajesProgramados = viajes.map(viaje => ({
-            ...viaje,
-            estado: viaje.estado ? `Aceptado por ${viaje.estado}` : 'Pendiente'
-          }));
+          this.viajesProgramados = viajes;
         });
     }
   }
-
-  
 }
 
